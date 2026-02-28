@@ -1,0 +1,23 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+    frontend:
+      build: ./frontend
+
+    backend:
+      build: ./backend
+      enviroment:
+        - DB_URL=db
+
+    database:
+      images: postgres:latest
+      enviroment:
+        -
